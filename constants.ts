@@ -39,7 +39,7 @@ const LOCAL_IMAGES = {
   logo: '/logo.png',
   carousel: [
     {
-      url: '/golf.jpg',
+      url: '/golf.png',
       title: 'Destaque no Avenida',
       description: 'Deixamos seu carro impecável pra desfilar no centro no final de semana.'
     },
@@ -49,12 +49,12 @@ const LOCAL_IMAGES = {
       description: 'Tiramos aqueles risquinhos chatos e devolvemos o brilho da pintura original.'
     },
     {
-      url: '/camarored.jpg',
+      url: '/camarored.png',
       title: 'Proteção de Pintura',
       description: 'Uma camada que protege contra o sol forte e a poeira das estradas de terra.'
     },
     {
-      url: '/camaro.jpg',
+      url: '/camaro.png',
       title: 'Limpeza por Dentro',
       description: 'Cuidado total nos bancos e painel. Fica com aquele cheirinho bom de carro novo.'
     }
