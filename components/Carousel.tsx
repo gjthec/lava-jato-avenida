@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { IMAGES, CONTACT } from '../constants';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 
 const Carousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,104 +23,109 @@ const Carousel: React.FC = () => {
 
   return (
     <section 
-      className="relative min-h-screen pt-40 md:pt-72 pb-20 px-4 bg-zinc-950 flex flex-col items-center justify-center overflow-hidden"
+      className="relative min-h-screen pt-32 md:pt-40 pb-20 px-4 bg-zinc-950 flex flex-col items-center justify-center overflow-hidden"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Brilho de fundo decorativo */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#facd0f]/10 rounded-full blur-[160px] pointer-events-none"></div>
+      {/* Brilho de fundo decorativo reduzido para não ofuscar */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-[400px] bg-[#facd0f]/5 rounded-full blur-[120px] pointer-events-none"></div>
 
-      {/* Texto de Cabeçalho da Seção */}
-      <div className="max-w-7xl mx-auto w-full relative z-20 text-center mb-12 md:mb-16 px-2">
-        <h1 className="text-4xl md:text-7xl font-black italic uppercase leading-tight text-white mb-4">
-          Seu carro <span className="text-[#facd0f]">brilhando</span> como novo
+      {/* Texto de Cabeçalho - Mais compacto */}
+      <div className="max-w-7xl mx-auto w-full relative z-20 text-center mb-10 md:mb-12 px-2">
+        <h1 className="text-3xl md:text-6xl lg:text-7xl font-black italic uppercase leading-none text-white mb-4">
+          O BRILHO QUE <span className="text-[#facd0f]">IMPRESSIONA</span>
         </h1>
-        <p className="text-zinc-400 text-base md:text-xl font-medium max-w-xl mx-auto">
-          O cuidado que seu veículo merece, feito com capricho pela equipe do Avenida. Arraste pro lado e confira!
+        <p className="text-zinc-400 text-sm md:text-lg font-medium max-w-2xl mx-auto uppercase tracking-widest">
+          Estética Automotiva Premium com a confiança do Avenida
         </p>
       </div>
 
-      {/* Container do Carrossel - Aumentada a altura mínima para evitar sobreposição */}
-      <div className="relative w-full max-w-6xl mx-auto group min-h-[550px] md:min-h-[750px] flex items-center justify-center z-10">
+      {/* Container do Carrossel - Layout otimizado para evitar cortes */}
+      <div className="relative w-full max-w-6xl mx-auto min-h-[500px] md:min-h-[650px] flex items-center justify-center z-10">
         {IMAGES.carousel.map((item, index) => {
           const isActive = index === currentIndex;
-          const isPrev = index === (currentIndex === 0 ? IMAGES.carousel.length - 1 : currentIndex - 1);
-          const isNext = index === (currentIndex === IMAGES.carousel.length - 1 ? 0 : currentIndex + 1);
-
-          let positionClasses = "opacity-0 scale-75 absolute pointer-events-none";
-          if (isActive) positionClasses = "opacity-100 scale-100 z-30 relative shadow-[0_20px_80px_-15px_rgba(250,205,15,0.4)]";
-          if (isPrev) positionClasses = "opacity-20 scale-90 -translate-x-full absolute z-20 hidden lg:block grayscale blur-sm";
-          if (isNext) positionClasses = "opacity-20 scale-90 translate-x-full absolute z-20 hidden lg:block grayscale blur-sm";
+          
+          if (!isActive) return null;
 
           return (
             <div
               key={index}
-              className={`transition-all duration-700 ease-out w-full max-w-[92vw] md:max-w-2xl rounded-[2.5rem] overflow-hidden border-2 border-[#facd0f]/40 bg-zinc-900 cursor-pointer ${positionClasses}`}
-              onClick={() => {
-                if (!isActive) setCurrentIndex(index);
-              }}
+              className="animate-in fade-in zoom-in duration-700 w-full max-w-[95vw] md:max-w-4xl rounded-[2rem] overflow-hidden border border-zinc-800 bg-zinc-900 shadow-2xl flex flex-col md:flex-row h-full"
             >
-              {/* Imagem com Overlay */}
-              <div className="aspect-[16/10] md:aspect-[16/9] overflow-hidden relative">
+              {/* Imagem - Ocupa metade no desktop */}
+              <div className="w-full md:w-1/2 aspect-video md:aspect-square overflow-hidden relative">
                 <img
                   src={item.url}
                   alt={item.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-10000 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent opacity-60"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/80 md:from-transparent to-transparent"></div>
               </div>
               
-              {/* Conteúdo do Card */}
-              <div className="p-8 md:p-12 text-left bg-zinc-900">
-                <div className="flex items-center gap-3 mb-3 md:mb-5">
+              {/* Conteúdo do Card - Sempre visível */}
+              <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-zinc-900">
+                <div className="flex items-center gap-3 mb-4">
                   <span className="h-[2px] w-8 bg-[#facd0f]"></span>
-                  <span className="text-[#facd0f] font-bold text-xs md:text-sm uppercase tracking-[0.2em]">{item.title}</span>
+                  <span className="text-[#facd0f] font-bold text-xs uppercase tracking-widest">{item.title}</span>
                 </div>
                 <h3 className="text-2xl md:text-4xl font-black italic uppercase text-white mb-6 leading-tight">
                   {item.description}
                 </h3>
-                <div className="inline-flex items-center gap-2 text-[#facd0f] font-black text-sm uppercase tracking-wider group/btn">
-                  Falar com o Avenida 
-                  <ChevronRight size={20} className="transition-transform group-hover/btn:translate-x-2" />
-                </div>
+                <a 
+                  href={CONTACT.whatsapp}
+                  target="_blank"
+                  className="inline-flex items-center gap-2 text-[#facd0f] font-black text-sm uppercase tracking-widest group/btn hover:translate-x-2 transition-transform"
+                >
+                  Agendar este serviço
+                  <ArrowRight size={18} className="transition-transform group-hover/btn:translate-x-1" />
+                </a>
               </div>
             </div>
           );
         })}
+
+        {/* Setas Laterais - Desktop (Ficam fora do card para não atrapalhar) */}
+        <button
+          onClick={prevSlide}
+          className="hidden lg:flex absolute -left-20 top-1/2 -translate-y-1/2 z-40 text-zinc-600 hover:text-[#facd0f] transition-colors p-4"
+        >
+          <ChevronLeft size={48} strokeWidth={1} />
+        </button>
+        <button
+          onClick={nextSlide}
+          className="hidden lg:flex absolute -right-20 top-1/2 -translate-y-1/2 z-40 text-zinc-600 hover:text-[#facd0f] transition-colors p-4"
+        >
+          <ChevronRight size={48} strokeWidth={1} />
+        </button>
       </div>
 
-      {/* Controles de Navegação - Garantido que fiquem por cima com z-40 */}
-      <div className="relative z-40 flex flex-col items-center gap-8 mt-12 md:mt-16 w-full">
-        <div className="flex items-center gap-8">
-          <button
-            onClick={prevSlide}
-            className="bg-zinc-800/80 backdrop-blur-md text-white p-4 md:p-5 rounded-full hover:bg-[#facd0f] hover:text-black transition-all shadow-2xl active:scale-90 border border-zinc-700"
-            aria-label="Anterior"
-          >
-            <ChevronLeft size={28} strokeWidth={3} />
-          </button>
+      {/* Controles Mobile e Dots */}
+      <div className="relative z-40 flex items-center gap-6 mt-10">
+        <button
+          onClick={prevSlide}
+          className="lg:hidden bg-zinc-800 text-white p-3 rounded-full active:scale-90"
+        >
+          <ChevronLeft size={24} />
+        </button>
 
-          {/* Dots de Navegação */}
-          <div className="flex gap-3">
-            {IMAGES.carousel.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`h-2.5 rounded-full transition-all duration-500 ${
-                  index === currentIndex ? 'w-10 md:w-16 bg-[#facd0f]' : 'w-2.5 bg-zinc-700'
-                }`}
-              />
-            ))}
-          </div>
-
-          <button
-            onClick={nextSlide}
-            className="bg-zinc-800/80 backdrop-blur-md text-white p-4 md:p-5 rounded-full hover:bg-[#facd0f] hover:text-black transition-all shadow-2xl active:scale-90 border border-zinc-700"
-            aria-label="Próximo"
-          >
-            <ChevronRight size={28} strokeWidth={3} />
-          </button>
+        <div className="flex gap-2">
+          {IMAGES.carousel.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                index === currentIndex ? 'w-12 bg-[#facd0f]' : 'w-2 bg-zinc-800'
+              }`}
+            />
+          ))}
         </div>
+
+        <button
+          onClick={nextSlide}
+          className="lg:hidden bg-zinc-800 text-white p-3 rounded-full active:scale-90"
+        >
+          <ChevronRight size={24} />
+        </button>
       </div>
     </section>
   );

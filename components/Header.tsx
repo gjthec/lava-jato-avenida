@@ -1,30 +1,46 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { IMAGES, CONTACT } from '../constants';
 import { MessageCircle } from 'lucide-react';
 
 const Header: React.FC = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-zinc-950/95 backdrop-blur-xl border-b border-zinc-900 transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-32 md:h-56">
-        {/* Massive Logo for Lava-Jato Avenida */}
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      scrolled 
+        ? 'bg-zinc-950/95 backdrop-blur-md h-20 md:h-24 border-b border-zinc-900 shadow-2xl' 
+        : 'bg-transparent h-24 md:h-32'
+    }`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-full">
+        {/* Logo Redimensionada para não ocupar a tela toda */}
         <div className="flex-shrink-0 flex items-center">
           <img 
             src={IMAGES.logo} 
             alt="Lava-Jato Avenida Logo" 
-            className="h-28 w-auto object-contain md:h-52 lg:h-64 transition-transform hover:scale-105 duration-500"
+            className={`transition-all duration-500 object-contain ${
+              scrolled ? 'h-14 md:h-20' : 'h-20 md:h-28'
+            } hover:scale-105`}
           />
         </div>
 
-        {/* Desktop CTA */}
+        {/* Desktop CTA mais elegante */}
         <div className="hidden md:block">
           <a
             href={CONTACT.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#facd0f] text-black font-black py-6 px-12 rounded-full uppercase tracking-widest text-lg transition-all hover:scale-110 active:scale-95 shadow-[0_0_50px_rgba(250,205,15,0.5)]"
+            className="bg-[#facd0f] text-black font-black py-3 px-8 rounded-xl uppercase tracking-widest text-sm transition-all hover:scale-110 active:scale-95 shadow-[0_0_30px_rgba(250,205,15,0.3)] hover:shadow-[#facd0f]/50"
           >
-            Chamar no Zap
+            Agendar Agora
           </a>
         </div>
 
@@ -34,9 +50,9 @@ const Header: React.FC = () => {
             href={CONTACT.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#facd0f] p-6 rounded-full text-black shadow-lg flex items-center justify-center"
+            className="bg-[#facd0f] p-3 rounded-xl text-black shadow-lg flex items-center justify-center active:scale-90 transition-transform"
           >
-            <MessageCircle size={32} fill="currentColor" />
+            <MessageCircle size={24} fill="currentColor" />
           </a>
         </div>
       </div>
